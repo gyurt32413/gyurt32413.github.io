@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gyurt32413.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="AC期末Twitter專案心得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AC期末Twitter專案心得">
+<meta property="og:url" content="https://gyurt32413.github.io/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="Steven&#39;s Blog">
+<meta property="og:description" content="AC期末Twitter專案心得">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/yxuwSzH.png">
+<meta property="article:published_time" content="2022-10-08T07:00:46.000Z">
+<meta property="article:modified_time" content="2022-10-08T07:25:28.671Z">
+<meta property="article:author" content="Steven">
+<meta property="article:tag" content="前端,後端,全端,網頁,技術,網頁開發,前端開發,後端開發,JavaScript,HTML,CSS,SCSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/yxuwSzH.png">
+
+<link rel="canonical" href="https://gyurt32413.github.io/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>AC期末Twitter專案心得 | Steven's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Steven's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Steven's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">苟孟的廢文小天地</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://gyurt32413.github.io/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Steven">
+      <meta itemprop="description" content="來不及認真的年輕過 就認真地老去">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steven's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AC期末Twitter專案心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2022-10-08 15:00:46 / 修改時間：15:25:28" itemprop="dateCreated datePublished" datetime="2022-10-08T15:00:46+08:00">2022-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AlphaCamp/" itemprop="url" rel="index"><span itemprop="name">AlphaCamp</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/08/AC期末Twitter專案心得/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">AC期末Twitter專案心得</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在AC最後的結尾呢，則是號稱大魔王的Twitter協作專案，不過在開始之前有個小插曲。在專案開始之前，我有安排一個澎湖的小旅行，但我對Twitter專案時程有點記錯，我回來時發現大家都分好組了(ಥ_ಥ)，幸好在助教幫忙之下，我找到尚有一組可以再增加一人，感謝Daisy小隊的各位願意讓我加入~</p>
+<p>廢話不多說，以下就來跟大家分享專案的過程以及這個專案讓我學習到的事物。</p>
+<h2 id="專案流程"><a class="header-anchor" href="#專案流程"></a>專案流程</h2>
+<p>我們總共有三位前端(包含我)以及兩位後端組員，以下是我們的流程：</p>
+<p>討論專案規格，完成Acceptance criteria及Task list。<br>
+完成系統分析文件，並針對每個頁面元件規劃所需資料。<br>
+分工進行專案的各個功能實作<br>
+完成切版<br>
+進行API串接(後端將API部屬置heroku雲端)<br>
+渲染串接後的資料畫面及功能實作<br>
+針對串接失敗或資料無法正常顯示的API進行討論及修正<br>
+完成測試後部屬到Github Page<br>
+第一週因為我們前端有三位組員，一開始在切版時進度還滿快的，在sprint2提前驗收前就差不多完成大部分的元件，反而是在github的操作花了不少時間研究；而後端的部分則是因為測試檔有點問題，後端的組員跟助教以及其他後端同學互相討論後成功通過測試。</p>
+<p>而後在串接API資料時，雖然能夠成功從後端拿取資料，但在渲染畫面過程中卻遇到一些問題，經過前後端討論及修改資料內容，以及不斷修正各種因組裝各component元件所產生的大大小小bug之後，總算能順利呈現資料畫面，並趕在死線前完成專案。</p>
+<h2 id="學習歷程"><a class="header-anchor" href="#學習歷程"></a>學習歷程</h2>
+<p>這次的Twitter專案經驗，我覺得主要有三個收穫：</p>
+<ol>
+<li>綜合應用，統整先前所學：<br>
+由於整個Twitter專案是從無到有，從一開始的切版、串接API及各種功能之實踐等，都是過去所學的統整。在這過程中也常常回去翻以前的教案複習各種切版技巧、JS的語法甚至是Vue的各種功能，也因此加深了這些技術的印象。</li>
+<li>培養解決問題能力：<br>
+在專案的整個過程中，一定會遇到不少的BUG，在解決這些BUG的過程中，逐漸培養自己的思考脈絡，因而更容易知道問題的所在。此外，也培養自己未來面對BUG時，具有獨立思考和解決問題的能力。</li>
+<li>團隊協作：<br>
+因為是多人協作之專案，加上我們採用前後分離的開發模式，因此勢必需要時常溝通開會。在和後端協作過程中，更加熟悉頁面所需的資料以及API的格式；而自己在前端的會議中，也能和組員互相討論問題，熟悉閱覽他人程式碼的邏輯。</li>
+</ol>
+<h2 id="反思"><a class="header-anchor" href="#反思"></a>反思</h2>
+<p>在這次的專案中，覺得自己有幾個較不足的地方。<br>
+我們在整個過程中，有請後端修改了幾次的資料，部分原因是我們前端對於資料的內容未全然理解。在教案練習串接API的時候，我們所需的資料都是在串接API時取得，也自然而然的去使用這些資料渲染畫面。但當我們從零開始要跟後端溝通所需資料時，對於頁面所需要的資料內容就沒有這麼明確了，常常實作到一半時就會想到這邊還需要某些資料才有辦法成功做出來。不過在經歷這次的經驗後，逐漸培養自己對於資料的敏感度，在接觸各種頁面及功能時能更快速了解所需的資料。</p>
+<h2 id="總結"><a class="header-anchor" href="#總結"></a>總結</h2>
+<p>整體來說，我覺得對於整個專案能夠順利完成還是很開心的，從無到有完成一個專案，和組員互相討論協作的過程，我覺得都是很寶貴的經驗。在這兩個禮拜中，也很感謝各個組員，即使大家在這專案中都很勞心勞力，但在開會時都沒有表現疲態，還是很踴躍討論。總之很感謝各位的參與，也期許未來我們在工程師的路上都能順順利利。</p>
+<p><strong>專案完成畫面:</strong><br>
+<img src="https://i.imgur.com/yxuwSzH.png" alt="project-img"><br>
+<a target="_blank" rel="noopener" href="https://peggyhung.github.io/twitter-front-end-vue/#/signin">專案連結</a><br>
+<em>測試帳號:user1</em><br>
+<em>測試密碼:12345678</em></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/" rel="prev" title="究竟什麼是event loop?">
+      <i class="fa fa-chevron-left"></i> 究竟什麼是event loop?
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/08/%E3%80%8C%E4%BB%8A%E5%A4%A9%E5%90%83%E7%94%9A%E9%BA%BC-%E3%80%8D%E5%B0%88%E6%A1%88%E5%9B%9E%E9%A1%A7/" rel="next" title="「今天吃甚麼?」專案回顧">
+      「今天吃甚麼?」專案回顧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">專案流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%B8%E7%BF%92%E6%AD%B7%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">學習歷程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E6%80%9D"><span class="nav-number">3.</span> <span class="nav-text">反思</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Steven"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Steven</p>
+  <div class="site-description" itemprop="description">來不及認真的年輕過 就認真地老去</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gyurt32413" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gyurt32413" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:gyurt32413@gmail.com" title="E-Mail → mailto:gyurt32413@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000896765127" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000896765127" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://mushding-website.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://gyurt32413.github.io/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/";
+    this.page.identifier = "2022/10/08/AC期末Twitter專案心得/";
+    this.page.title = "AC期末Twitter專案心得";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://mushding-website.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
