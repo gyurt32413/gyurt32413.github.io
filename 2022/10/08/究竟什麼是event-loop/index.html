@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="究竟什麼是event loop?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="究竟什麼是event loop?">
+<meta property="og:url" content="http://example.com/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/index.html">
+<meta property="og:site_name" content="Steven&#39;s Blog">
+<meta property="og:description" content="究竟什麼是event loop?">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://miro.medium.com/max/640/1*KXgNy0ycsV_24a3MHYSaWA.png">
+<meta property="og:image" content="https://i.imgur.com/0x6YXSj.png">
+<meta property="og:image" content="https://i.imgur.com/eh8VwYz.png">
+<meta property="article:published_time" content="2022-10-07T16:49:26.000Z">
+<meta property="article:modified_time" content="2022-10-08T06:56:22.223Z">
+<meta property="article:author" content="Steven">
+<meta property="article:tag" content="前端,後端,全端,網頁,技術,網頁開發,前端開發,後端開發,JavaScript,HTML,CSS,SCSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/640/1*KXgNy0ycsV_24a3MHYSaWA.png">
+
+<link rel="canonical" href="http://example.com/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>究竟什麼是event loop? | Steven's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Steven's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Steven's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">苟孟的廢文小天地</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Steven">
+      <meta itemprop="description" content="來不及認真的年輕過 就認真地老去">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steven's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          究竟什麼是event loop?
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2022-10-08 00:49:26 / 修改時間：14:56:22" itemprop="dateCreated datePublished" datetime="2022-10-08T00:49:26+08:00">2022-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/08/究竟什麼是event-loop/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <div class="post-description">究竟什麼是event loop?</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;</span><br><span class="line">  console.log(&#x27;delay 0 sec&#x27;)</span><br><span class="line">&#125;, 0)</span><br><span class="line">console.log(&#x27;Hello!&#x27;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://miro.medium.com/max/640/1*KXgNy0ycsV_24a3MHYSaWA.png" alt="執行結果"></p>
+<p>在上述的程式碼中，可以發現順序較前的’‘setTimeout’‘卻晚於’‘Hello!’'執行，原因在於JavaScript的event loop。我們先探討JavaScript的幾個特性。</p>
+<h2 id="單執行緒"><a class="header-anchor" href="#單執行緒"></a>單執行緒</h2>
+<p>因為JavaScript的處理程序為單執行緒，意思為同一時間僅能處理一件事，要處理完正在處理的程序才能處理下一件事，而當某程序耗費較長的時間時，會導致後面的程序因為該程序而無法繼續進行，也就是所謂的「阻塞」。</p>
+<h2 id="JavaScript-引擎"><a class="header-anchor" href="#JavaScript-引擎"></a>JavaScript 引擎</h2>
+<p>Google’s V8是流行的Javascript引擎之一，它使用在Chrome瀏覽器和Node.js中，V8引擎主要包含兩部分：</p>
+<ul>
+<li>Memory Heap ( 內存堆 )  — 分配內存將會在這裡發生,以無序的方式儲存任何類型的任意數據</li>
+<li>Call Stack ( 堆疊 ) — &gt; 引擎跟蹤 code 執行位置的地方，從命名上可知它的資料結構為Stack，資料的進出是以先進後出的方式。</li>
+</ul>
+<h3 id="Call-Stack-堆疊"><a class="header-anchor" href="#Call-Stack-堆疊"></a>Call Stack ( 堆疊 )</h3>
+<p>我們來看一段code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function func1() &#123;</span><br><span class="line">  console.log(&#x27;func1 start&#x27;)</span><br><span class="line">  func2()</span><br><span class="line">  console.log(&#x27;func1 end&#x27;)</span><br><span class="line">&#125;</span><br><span class="line">function func2() &#123;</span><br><span class="line">  console.log(&#x27;func2 start&#x27;)</span><br><span class="line">  console.log(&#x27;Hello&#x27;)</span><br><span class="line">  console.log(&#x27;func2 end&#x27;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func1()</span><br></pre></td></tr></table></figure>
+<p>執行結果:<br>
+<img src="https://i.imgur.com/0x6YXSj.png" alt="func result"><br>
+從以上可以得知，當準備執行func1時，func1被放進了Call Stack，而因為func1呼叫了func2，func2被放到了func1的上方，而當func2執行完畢後(印出func2 end)，func1被移出Stack，接著func1執行完畢，換func1被移出Stack，運作過程如下:<br>
+<img src="https://i.imgur.com/eh8VwYz.png" alt="call-stack"></p>
+<p><strong>那所以這和我們最一開始提到的現象有什麼關係呢?</strong><br>
+有一些APIs並非是由JavaScript 引擎提供的，像是DOM、AJAX、setTimeout等，這些是瀏覽器提供的，也就是WEB APIs。而JavaScript的call stack遇到這些APIs時，會先丟到網頁讓它處理。</p>
+<h3 id="任務佇列-task-quene"><a class="header-anchor" href="#任務佇列-task-quene"></a>任務佇列(task quene)</h3>
+<p>而這些網頁處理完的APIs要放到哪呢?<br>
+為了避免一處理完丟回call stack造成程序混亂，在處理完WEB APIs後會先丟到<strong>task quene</strong>的地方，等到call stack處理完後才會傳回<strong>task quene</strong>進行處理。</p>
+<h3 id="事件循環（event-loop）"><a class="header-anchor" href="#事件循環（event-loop）"></a>事件循環（event loop）</h3>
+<p>這時候就輪到<strong>event loop</strong>上場啦，它會一直去查看<strong>stack</strong>裡面是不是還有東西，如果是空了的話，便會把<strong>quene</strong>排序第一的任務放到<strong>stack</strong>裡去執行。</p>
+<p>所以在一開始提到的例子中，當javascript引擎遇到setTimeout時，它會判斷它不是JS引擎的功能，於是把它丟到瀏覽器讓瀏覽器處理，接著繼續執行stack接下來的任務，也就是console.log(‘Hello!’)；同時瀏覽器也在處理setTimeout，並將處理完的任務放到quene裡，這也是JS所謂的<strong>非同步處理(asynchronous)</strong>。而當stack空了的時候，event loop便會將quene裡的console.log(‘delay 0 sec’)丟回stack，因此結果才會是先印出&quot;Hello&quot;之後才印出&quot;delay 0 sec&quot;。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/08/%E5%A5%87%E6%80%AA%E7%9A%84This/" rel="prev" title="奇怪的This">
+      <i class="fa fa-chevron-left"></i> 奇怪的This
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/08/AC%E6%9C%9F%E6%9C%ABTwitter%E5%B0%88%E6%A1%88%E5%BF%83%E5%BE%97/" rel="next" title="AC期末Twitter專案心得">
+      AC期末Twitter專案心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%96%AE%E5%9F%B7%E8%A1%8C%E7%B7%92"><span class="nav-number">1.</span> <span class="nav-text">單執行緒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E5%BC%95%E6%93%8E"><span class="nav-number">2.</span> <span class="nav-text">JavaScript 引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Call-Stack-%E5%A0%86%E7%96%8A"><span class="nav-number">2.1.</span> <span class="nav-text">Call Stack ( 堆疊 )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8B%99%E4%BD%87%E5%88%97-task-quene"><span class="nav-number">2.2.</span> <span class="nav-text">任務佇列(task quene)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%92%B0%EF%BC%88event-loop%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">事件循環（event loop）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Steven"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Steven</p>
+  <div class="site-description" itemprop="description">來不及認真的年輕過 就認真地老去</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gyurt32413" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gyurt32413" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:gyurt32413@gmail.com" title="E-Mail → mailto:gyurt32413@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/profile.php?id=100000896765127" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;profile.php?id&#x3D;100000896765127" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://mushding-website.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://example.com/2022/10/08/%E7%A9%B6%E7%AB%9F%E4%BB%80%E9%BA%BC%E6%98%AFevent-loop/";
+    this.page.identifier = "2022/10/08/究竟什麼是event-loop/";
+    this.page.title = "究竟什麼是event loop?";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://mushding-website.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+    </div>
+</body>
+</html>
